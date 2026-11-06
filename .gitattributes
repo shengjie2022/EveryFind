@@ -1,0 +1,4 @@
+# 统一行尾：仓库内一律 LF，Windows 批处理单独用 CRLF
+# 避免在 Windows 上 checkout 时整个仓库被改写成 CRLF，产生「全文件变更」假 diff
+* text=auto eol=lf
+*.bat text eol=crlf

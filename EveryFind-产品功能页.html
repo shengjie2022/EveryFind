@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EveryFind · 产品功能页</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ec;
+    --panel:#ffffff;
+    --ink:#1a2721;
+    --ink-2:#4a5a52;
+    --ink-3:#8a978f;
+    --green:#1f6b4f;
+    --green-2:#2d8a67;
+    --green-soft:#e7f1ec;
+    --green-line:#cfe0d7;
+    --orange:#e2622d;
+    --orange-soft:#fdeee7;
+    --blue:#3f6fb4;
+    --blue-soft:#e9f0f9;
+    --line:#e5e2d9;
+    --shadow-sm:0 2px 8px rgba(26,39,33,.07);
+    --shadow:0 10px 30px rgba(26,39,33,.10);
+    --radius:14px;
+    --sans:"Outfit","PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans SC",sans-serif;
+    --serif:"DM Serif Display","Songti SC","SimSun",Georgia,serif;
+    --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.62 var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  .serif{font-family:var(--serif);font-weight:400;letter-spacing:-.005em;}
+
+  /* ── Hero ───────────────────────────────────────── */
+  .hero{position:relative;overflow:hidden;padding:60px 0 46px;}
+  .hero::before,.hero::after{
+    content:"";position:absolute;border-radius:50%;pointer-events:none;
+  }
+  .hero::before{width:520px;height:520px;top:-260px;right:-140px;
+    background:radial-gradient(circle,rgba(31,107,79,.10),transparent 68%);}
+  .hero::after{width:420px;height:420px;bottom:-240px;left:-160px;
+    background:radial-gradient(circle,rgba(226,98,45,.08),transparent 70%);}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1fr 300px;gap:44px;align-items:center;}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:20px;}
+  .brand-mark{width:40px;height:40px;border-radius:12px;background:var(--green);color:#fff;
+    display:grid;place-items:center;font-weight:800;font-size:15px;letter-spacing:.5px;}
+  .brand-name{font-size:19px;font-weight:800;letter-spacing:.3px;}
+  h1{font-size:34px;line-height:1.28;margin-bottom:14px;}
+  .lede{font-size:15.5px;color:var(--ink-2);max-width:44ch;margin-bottom:22px;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--panel);
+    border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;
+    color:var(--ink-2);font-weight:500;}
+  .pill svg{width:13px;height:13px;color:var(--green);}
+  .hero-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:16px;}
+  .hero-card .hc-title{font-size:11.5px;font-weight:700;letter-spacing:1px;color:var(--ink-3);
+    margin-bottom:10px;}
+  .hc-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px dashed var(--line);
+    font-size:13px;}
+  .hc-row:first-of-type{border-top:0;}
+  .hc-row .dot{width:20px;height:20px;border-radius:50%;flex:0 0 20px;display:grid;place-items:center;
+    background:var(--green-soft);color:var(--green);}
+  .hc-row .dot svg{width:12px;height:12px;}
+  .hc-row b{font-weight:600;}
+  .hc-row span{color:var(--ink-3);font-size:12px;margin-left:auto;}
+
+  /* ── Sections ───────────────────────────────────── */
+  section{padding:44px 0;border-top:1px solid var(--line);}
+  .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .sec-head svg{width:19px;height:19px;color:var(--green);flex:0 0 19px;}
+  h2{font-size:24px;line-height:1.3;}
+  .sec-sub{color:var(--ink-2);font-size:14px;margin:0 0 24px;max-width:60ch;}
+
+  /* ── Flow ───────────────────────────────────────── */
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;}
+  .stage{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 13px;
+    position:relative;box-shadow:var(--shadow-sm);transition:.18s;}
+  .stage:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .stage .sn{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.6px;}
+  .stage .si{width:26px;height:26px;border-radius:8px;background:var(--green-soft);color:var(--green);
+    display:grid;place-items:center;margin:8px 0 9px;}
+  .stage .si svg{width:14px;height:14px;}
+  .stage h3{font-size:14px;font-weight:700;margin-bottom:5px;}
+  .stage p{margin:0;font-size:12.5px;color:var(--ink-3);line-height:1.55;}
+  .stage.local{background:var(--green);border-color:var(--green);}
+  .stage.local .sn{color:rgba(255,255,255,.62);}
+  .stage.local .si{background:rgba(255,255,255,.18);color:#fff;}
+  .stage.local h3{color:#fff;}
+  .stage.local p{color:rgba(255,255,255,.78);}
+  .flow-arrow{align-self:center;justify-self:center;color:var(--ink-3);}
+  .flow-arrow svg{width:16px;height:16px;}
+
+  /* ── Cards / grid ───────────────────────────────── */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;box-shadow:var(--shadow-sm);}
+  .card h3{font-size:15px;font-weight:700;margin-bottom:7px;display:flex;align-items:center;gap:8px;}
+  .card h3 svg{width:16px;height:16px;color:var(--green);flex:0 0 16px;}
+  .card p{margin:0;font-size:13.5px;color:var(--ink-2);}
+
+  /* ── Table ──────────────────────────────────────── */
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;}
+  thead th{text-align:left;font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--ink-3);
+    padding:0 12px 10px;border-bottom:1px solid var(--line);}
+  tbody td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top;}
+  tbody tr:last-child td{border-bottom:0;}
+  tbody td:first-child{color:var(--ink);font-weight:600;}
+  .tbl-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 6px 8px;box-shadow:var(--shadow-sm);overflow-x:auto;}
+  .yes{color:var(--green);font-weight:700;}
+  .no{color:var(--ink-3);}
+  .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:600;}
+  .tag.g{background:var(--green-soft);color:var(--green);}
+  .tag.o{background:var(--orange-soft);color:var(--orange);}
+  .tag.b{background:var(--blue-soft);color:var(--blue);}
+
+  /* ── Mock UI ────────────────────────────────────── */
+  .mock{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);overflow:hidden;}
+  .mock-bar{display:flex;align-items:center;gap:6px;padding:9px 14px;border-bottom:1px solid var(--line);
+    background:#fbfaf7;}
+  .mock-bar i{width:9px;height:9px;border-radius:50%;background:#dcd8cd;display:block;}
+  .mock-bar b{margin-left:8px;font-size:11.5px;color:var(--ink-3);font-weight:500;}
+  .mock-body{padding:18px;}
+  .bubble-user{background:var(--blue-soft);color:#2c4f85;border-radius:14px 14px 4px 14px;
+    padding:9px 13px;font-size:13.5px;max-width:82%;margin-left:auto;width:fit-content;}
+  .answer{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:#fff;}
+  .answer p{margin:0 0 8px;font-size:13.5px;line-height:1.7;}
+  .cite{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:4px;
+    border-radius:6px;background:var(--green-soft);color:var(--green);border:1px solid var(--green-line);
+    font-size:11.5px;font-weight:700;vertical-align:2px;cursor:pointer;}
+  .cite:hover{background:var(--green);color:#fff;}
+  .hl{background:#fdeee7;color:#a8401a;padding:0 2px;border-radius:3px;font-weight:600;}
+  .loc{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:11px;border-top:1px dashed var(--line);}
+  .loc span{font-size:11.5px;color:var(--ink-3);background:#f6f4ef;border:1px solid var(--line);
+    border-radius:6px;padding:2px 8px;font-family:var(--mono);}
+  .celltable{margin-top:12px;border:1px solid var(--line);border-radius:9px;overflow:hidden;font-size:12.5px;}
+  .celltable div{display:grid;grid-template-columns:78px 1fr 1fr;border-top:1px solid var(--line);}
+  .celltable div:first-child{border-top:0;}
+  .celltable div > *{padding:6px 10px;}
+  .celltable .k{color:var(--ink-3);background:#fbfaf7;}
+  .celltable .v{font-family:var(--mono);font-size:12px;}
+  .celltable .v.on{background:var(--orange-soft);color:#a8401a;font-weight:700;}
+
+  /* ── Drop mock ──────────────────────────────────── */
+  .dropzone-demo{border:2px dashed var(--green-line);border-radius:var(--radius);
+    background:linear-gradient(180deg,#fbfdfc,#f4f8f6);padding:30px 20px;text-align:center;}
+  .dropzone-demo .dz-icon{width:52px;height:52px;margin:0 auto 12px;border-radius:15px;
+    background:var(--green-soft);color:var(--green);display:grid;place-items:center;}
+  .dropzone-demo .dz-icon svg{width:24px;height:24px;}
+  .dropzone-demo .dz-title{font-size:19px;font-weight:800;margin-bottom:6px;}
+  .dropzone-demo .dz-sub{font-size:13px;color:var(--ink-3);margin-bottom:10px;}
+  .dropzone-demo .dz-note{font-size:12px;color:var(--ink-3);opacity:.85;}
+
+  /* ── Privacy rail ───────────────────────────────── */
+  .rail{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;background:var(--panel);box-shadow:var(--shadow-sm);}
+  .rail-col{padding:20px;}
+  .rail-col.left{background:linear-gradient(180deg,#f4f9f6,#fff);}
+  .rail-col.right{background:linear-gradient(180deg,#fdf6f1,#fff);border-left:1px solid var(--line);}
+  .rail-head{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:700;margin-bottom:14px;}
+  .rail-head svg{width:17px;height:17px;}
+  .rail-col.left .rail-head{color:var(--green);}
+  .rail-col.right .rail-head{color:var(--orange);}
+  .rail-list{list-style:none;margin:0;padding:0;}
+  .rail-list li{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;color:var(--ink-2);}
+  .rail-list svg{width:14px;height:14px;flex:0 0 14px;margin-top:3px;}
+  .rail-list li.ok svg{color:var(--green);}
+  .rail-list li.out svg{color:var(--orange);}
+  .payload{margin-top:12px;border:1px dashed var(--line);border-radius:9px;padding:10px 12px;
+    background:#fff;font-family:var(--mono);font-size:11.5px;color:var(--ink-2);line-height:1.7;}
+  .payload b{color:var(--orange);}
+
+  /* ── Timeline ───────────────────────────────────── */
+  .timeline{list-style:none;margin:0;padding:0;position:relative;}
+  .timeline::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;
+    background:var(--green);opacity:.3;}
+  .timeline li{position:relative;padding:0 0 20px 32px;}
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline li::before{content:"";position:absolute;left:2px;top:4px;width:14px;height:14px;
+    border-radius:50%;background:#fff;border:2px solid var(--green);}
+  .timeline strong{display:block;font-size:14px;margin-bottom:3px;}
+  .timeline p{margin:0;font-size:13px;color:var(--ink-2);}
+  .timeline code{font-family:var(--mono);font-size:12px;background:#f2f0e9;border:1px solid var(--line);
+    border-radius:5px;padding:0 5px;}
+
+  /* ── Footer ─────────────────────────────────────── */
+  footer{padding:36px 0 48px;border-top:1px solid var(--line);color:var(--ink-3);font-size:12.5px;}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:flex-start;}
+  .foot-grid .mono{font-family:var(--mono);font-size:12px;}
+
+  /* ── Responsive ─────────────────────────────────── */
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr;gap:28px;}
+    .flow{grid-template-columns:1fr 1fr;}
+    .flow-arrow{display:none;}
+    .grid3{grid-template-columns:1fr;}
+  }
+  @media (max-width:680px){
+    body{font-size:14.5px;}
+    h1{font-size:27px;}
+    h2{font-size:21px;}
+    .wrap{padding:0 18px;}
+    .hero{padding:40px 0 34px;}
+    section{padding:34px 0;}
+    .flow{grid-template-columns:1fr;}
+    .grid2,.rail{grid-template-columns:1fr;}
+    .rail-col.right{border-left:0;border-top:1px solid var(--line);}
+    .tbl-wrap{padding:14px 2px 6px;}
+  }</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="brand">
+        <div class="brand-mark">EF</div>
+        <div>
+          <div class="brand-name">EveryFind</div>
+          <div style="font-size:12px;color:var(--ink-3);">本地文档内容检索工具</div>
+        </div>
+      </div>
+      <h1 class="serif">直接问资料，<br/>答案有出处。</h1>
+      <p class="lede">给 Word / Excel / PPT / PDF / 图片做全文索引、问答与溯源。每条结论都带编号，点一下就回到原文的段落、页码、单元格或幻灯片逐字核对。</p>
+      <div class="pill-row">
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>资料不上传</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>拖拽即导入</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg>42 种格式</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>本地 OCR</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>能追问</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v12"/></svg>可导出</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hc-title">一次问答发生了什么</div>
+      <div class="hc-row"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg></span><b>本地解析</b><span>5 文件 → 47 内容块</span></div>
+      <div class="hc-row"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg></span><b>混合检索</b><span>分词 + 二元组</span></div>
+      <div class="hc-row"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg></span><b>答案 + 引用</b><span>点开回到原文</span></div>
+      <div class="hc-row"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg></span><b>数据不出本机</b><span>0 字节原始文档外发</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 工作链路 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 7.5 15.5 16.5"/></svg>
+      <h2 class="serif">资料怎么变成一句有出处的答案</h2>
+    </div>
+    <p class="sec-sub">整条链路都在本机跑完，只有最后一步「组织语言」可选地交给模型；不接模型时直接给原文摘录。</p>
+
+    <div class="flow">
+      <div class="stage">
+        <div class="sn">01</div>
+        <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/></svg></div>
+        <h3>解析</h3>
+        <p>42 种格式逐个拆成内容块；图片与扫描页走本地 OCR。</p>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+      <div class="stage">
+        <div class="sn">02</div>
+        <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <h3>双索引</h3>
+        <p>jieba 分词 FTS5 管语义，二元组 FTS5 管中文子串。</p>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+      <div class="stage">
+        <div class="sn">03</div>
+        <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+        <h3>混合检索</h3>
+        <p>分词 BM25 + 二元组 BM25 + 覆盖率重排，再对文件名加权。</p>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></div>
+      <div class="stage local">
+        <div class="sn">04</div>
+        <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></div>
+        <h3>留在本机</h3>
+        <p>问答编排、引用编号、溯源定位，全程离线。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 四个入口 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      <h2 class="serif">四个入口，四种资料归属</h2>
+    </div>
+    <p class="sec-sub">差别只在「资料放在哪、谁说了算」。拖拽上传是唯一会复制副本的入口，其余三个都引用你原有的文件。</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:130px;"></th>
+            <th>添加文件夹</th>
+            <th>选择文件</th>
+            <th style="color:var(--orange);">拖拽上传</th>
+            <th>扫描磁盘</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>资料存放</td>
+            <td>你指定的原目录</td>
+            <td>引用原文件</td>
+            <td><span class="tag o">复制一份</span> 到 <code style="font-family:var(--mono);font-size:12px;">data/uploads/</code></td>
+            <td>原地索引</td>
+          </tr>
+          <tr>
+            <td>原文件改动</td>
+            <td><span class="yes">自动同步</span></td>
+            <td><span class="yes">自动同步</span></td>
+            <td class="no">副本不动</td>
+            <td><span class="yes">自动同步</span></td>
+          </tr>
+          <tr>
+            <td>目录结构</td>
+            <td><span class="yes">保留</span></td>
+            <td class="no">平铺</td>
+            <td><span class="yes">保留</span></td>
+            <td><span class="yes">保留</span></td>
+          </tr>
+          <tr>
+            <td>适合</td>
+            <td>长期资料库</td>
+            <td>零散几份</td>
+            <td>临时导入、别人发来的文件</td>
+            <td>不知道文件在哪</td>
+          </tr>
+          <tr>
+            <td>入库速度</td>
+            <td>立即</td>
+            <td>立即</td>
+            <td>立即</td>
+            <td>需遍历整盘</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 拖拽上传 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v12"/></svg>
+      <h2 class="serif">拖拽上传：松手就完成</h2>
+    </div>
+    <p class="sec-sub">从资源管理器把文件或整个文件夹拖进窗口，遮罩提示，松手即落盘、建索引、可检索。</p>
+
+    <div class="grid2">
+      <div>
+        <div class="dropzone-demo">
+          <div class="dz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v12"/></svg></div>
+          <div class="dz-title">松手即可导入</div>
+          <div class="dz-sub">Word / Excel / PPT / PDF / 图片 / 文本，可直接拖整个文件夹</div>
+          <div class="dz-note">导入的文件会复制一份到本地资料库，原始文件不受影响</div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>拖文件夹，结构原样保留</h3>
+          <p>从资源管理器拖入 <code style="font-family:var(--mono);font-size:12px;">项目A/</code> 这个文件夹，导入后资料库里仍然是同一个层级，不会被拍平成一堆文件。</p>
+          <svg viewBox="0 0 300 132" width="100%" style="margin-top:12px;display:block" role="img" aria-label="拖入文件夹后的目录结构">
+            <rect x="0" y="0" width="300" height="132" rx="10" fill="#fbfaf7" stroke="#e5e2d9"/>
+            <g stroke="#cfe0d7" stroke-width="1.5" fill="none">
+              <path d="M24 30 V116"/>
+              <path d="M24 48 H42"/>
+              <path d="M52 52 V116"/>
+              <path d="M52 70 H70"/>
+              <path d="M80 74 V92"/>
+              <path d="M80 92 H98"/>
+              <path d="M52 114 H70"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="11.5">
+              <text x="16" y="26" fill="#1f6b4f" font-weight="500">项目A/</text>
+              <text x="46" y="48" fill="#4a5a52">2026/</text>
+              <text x="74" y="70" fill="#4a5a52">合同/</text>
+              <text x="102" y="92" fill="#8a978f">年度预算.xlsx</text>
+              <text x="74" y="114" fill="#8a978f">说明.txt</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>四道保险</h3>
+          <div class="kv" style="display:grid;grid-template-columns:96px 1fr;row-gap:9px;column-gap:14px;margin-top:12px;">
+            <dt style="color:var(--ink-3);border-bottom:1px dashed var(--line);padding-bottom:8px;">类型过滤</dt>
+            <dd style="margin:0;border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:13px;">只收 42 种可索引格式，<code style="font-family:var(--mono);font-size:12px;">.exe</code> 之类在服务端就被挡掉</dd>
+            <dt style="color:var(--ink-3);border-bottom:1px dashed var(--line);padding-bottom:8px;">不覆盖</dt>
+            <dd style="margin:0;border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:13px;">同名自动改名 <code style="font-family:var(--mono);font-size:12px;">预算(1).xlsx</code></dd>
+            <dt style="color:var(--ink-3);border-bottom:1px dashed var(--line);padding-bottom:8px;">路径清洗</dt>
+            <dd style="margin:0;border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:13px;">非法字符替换、<code style="font-family:var(--mono);font-size:12px;">..</code> 与盘符剥除，写不出版本库</dd>
+            <dt style="color:var(--ink-3);border-bottom:1px dashed var(--line);padding-bottom:8px;">删了会清</dt>
+            <dd style="margin:0;border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:13px;">副本从磁盘删掉，索引 60 秒内一并清掉</dd>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>为什么是复制，不是移动</h3>
+          <p>浏览器出于安全限制拿不到你文件的真实磁盘路径，只能读到文件内容 —— 这是 Web 应用的固有语义。所以拖进来的东西被<strong>复制</strong>到 <code style="font-family:var(--mono);font-size:12px;">data/uploads/</code>，<strong>原文件完全不受影响</strong>。</p>
+          <p style="margin-top:10px;">想让资料长期跟着原文件走，用「添加文件夹」。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 第二轮：多轮追问 / 范围限定 / 体检 / 导出 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+      <h2 class="serif">四件让工具更扛用的事</h2>
+    </div>
+    <p class="sec-sub">问答不再是「一次一问」：能追问、能圈范围、能体检、能导出。</p>
+
+    <div class="mock">
+      <div class="mock-bar"><i></i><i></i><i></i><b>EveryFind · 问答</b></div>
+      <div class="mock-body">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);border:1px solid var(--green-line);color:var(--green);border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;margin-bottom:14px;">
+          <span>检索范围</span>
+          <span style="background:#fff;border:1px solid var(--green-line);border-radius:999px;padding:1px 10px;">年度预算.xlsx</span>
+          <span style="opacity:.6;">✕</span>
+        </div>
+        <div class="bubble-user">差旅费的预算是多少？</div>
+        <div class="answer" style="margin-top:12px;">
+          <p>其中差旅费预算 <span class="hl">48,000</span> 元，实际支出 <span class="hl">32,000</span> 元。<span class="cite">1</span></p>
+          <div class="loc">
+            <span>年度预算.xlsx</span><span>2026预算</span><span>第 4 行</span><span>单元格 C4</span>
+          </div>
+        </div>
+        <div class="bubble-user" style="margin-top:14px;">那预算是多少？</div>
+        <div class="answer" style="margin-top:12px;">
+          <p>预算 <span class="hl">48,000</span> 元，差异 <span class="hl">16,000</span> 元。<span class="cite">2</span></p>
+          <div class="loc">
+            <span style="background:var(--blue-soft);border-color:#cfe0f7;color:#2c4f85;">已结合上文扩展检索</span>
+            <span style="background:var(--orange-soft);border-color:#f3d9cb;color:#a8401a;">导出 Markdown</span>
+            <span style="background:var(--orange-soft);border-color:#f3d9cb;color:#a8401a;">导出 Word</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:18px;">
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>多轮追问</h3>
+        <p>「那预算是多少？」这种省略句会自动带上文一起检索，回答下方标注「已结合上文扩展检索」。上下文保留最近 8 轮，检索时取最近 3 轮。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>限定范围问答</h3>
+        <p>点左侧资料库里的文件名，或点「限定到某个文件」，接下来的提问只在这一份文件里检索。文件过滤直接下推到 SQL 关联，不是先取全局结果再筛 —— 否则目标文件没进候选池就会被误判成搜不到。全文搜索也会跟着一起收窄，搜索框上方照样能看见范围、照样能取消。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>索引体检报告</h3>
+        <p>左侧「体检」按钮打开一份诊断报告：多少文件入库、多少解析失败、按格式怎么分布、哪些还等着索引，外加 OCR、自动同步、API Key 的环境提醒。排查「为什么搜不到」先看它。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v12"/></svg>导出问答</h3>
+        <p>每条回答下方「导出 Markdown」「导出 Word」，末尾自动附「引用出处」清单（文件名 + 精确位置 + 原文片段）。导出来的东西自带出处，可以直接当交差材料。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 第三轮：聚合计算 / 目录感知 / 历史 / 上传重试 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h2M12 10h2M8 14h2M12 14h2M8 18h6"/></svg>
+      <h2 class="serif">再往深处挖一层</h2>
+    </div>
+    <p class="sec-sub">会算、会找、记得住 —— 表格里的数直接算出来，资料按目录理清楚，问过的不用重问。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h3M13 13h3M8 17h8"/></svg>表格聚合计算</h3>
+        <p>问「预算合计是多少」「一共有多少个项目」「支出最多的是哪一项」，直接按表里的原始数值算，不靠模型转述。</p>
+        <svg viewBox="0 0 300 96" width="100%" style="margin-top:12px;display:block" role="img" aria-label="聚合计算结果">
+          <rect x="0" y="0" width="300" height="96" rx="10" fill="#fbfaf7" stroke="#e5e2d9"/>
+          <text x="14" y="24" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#1a2721">2026/年度预算.xlsx　预算合计：<tspan font-weight="700" fill="#1f6b4f">390,000</tspan>（5 项相加）</text>
+          <text x="14" y="46" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#1a2721">年度预算.xlsx　预算合计：<tspan font-weight="700" fill="#1f6b4f">248,000</tspan>（4 项相加）</text>
+          <text x="14" y="72" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a978f">「合计」行已排除 · 不跨文件相加 · 表格聚合计算</text>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>目录感知</h3>
+        <p>资料按相对目录分组显示，同名文件不再分不清。点目录标题就能把检索范围限定到那个目录（含它下面的所有子目录），接着问、接着搜都只在这个范围里 —— 目录过滤同样下推到 SQL，目录本身和它的子树一起匹配。</p>
+        <svg viewBox="0 0 300 96" width="100%" style="margin-top:12px;display:block" role="img" aria-label="按目录分组的资料列表">
+          <rect x="0" y="0" width="300" height="96" rx="10" fill="#fbfaf7" stroke="#e5e2d9"/>
+          <g font-family="JetBrains Mono, monospace" font-size="11.5">
+            <text x="14" y="24" fill="#1f6b4f" font-weight="600">▸ 2026/预算/</text>
+            <text x="14" y="44" fill="#4a5a52">　年度预算.xlsx</text>
+            <text x="14" y="64" fill="#4a5a52">　2026预算.xlsx</text>
+            <text x="14" y="84" fill="#8a978f">▸ 2026/合同/</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>问答历史</h3>
+        <p>每轮问答自动存档到本地，重启工具也不会丢。可以回看、再问一次、导出成 Markdown，也能单条删掉或整体清空。</p>
+      </div>
+
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v12"/></svg>导入进度与重试</h3>
+        <p>大批量拖入时侧边栏有进度条；某个文件没传成功会单独列出来，可以只重试失败的那几个，不用整批重来。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 溯源 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <h2 class="serif">答案必须能核对</h2>
+    </div>
+    <p class="sec-sub">给的是原文片段 + 精确定位，不是摘要。点开引用就能看到当时命中的是哪一段、哪一页、哪一个单元格。</p>
+
+    <div class="mock">
+      <div class="mock-bar"><i></i><i></i><i></i><b>EveryFind · 问答</b></div>
+      <div class="mock-body">
+        <div class="bubble-user">差旅费的预算是多少？实际支出是多少？</div>
+        <div class="answer">
+          <p>差旅费 | 预算（元）：<span class="hl">48000</span> | 实际支出（元）：<span class="hl">32000</span> | 差异：<span class="hl">16000</span><span class="cite">1</span></p>
+          <div class="loc">
+            <span>年度预算.xlsx</span>
+            <span>2026预算</span>
+            <span>第 4 行</span>
+            <span>单元格 C4</span>
+          </div>
+          <div class="celltable">
+            <div><span class="k">位置</span><span class="v">2026预算</span><span class="v">第 4 行 · C4</span></div>
+            <div><span class="k">字段</span><span class="v">实际支出（元）</span><span class="v on">C4 = 32000</span></div>
+          </div>
+        </div>
+        <div class="loc" style="border-top:0;padding-top:14px;margin-top:4px;">
+          <span style="background:var(--orange-soft);border-color:#f3d9cb;color:#a8401a;">未接入模型，以上为资料原文摘录</span>
+          <span>也可以接模型组织语言，引用编号不变</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:18px;">
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/></svg>Word</h3>
+        <p>第 N 段 + 标题层级，表格行单独成块。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>Excel</h3>
+        <p>工作表 · 第 N 行 · 单元格坐标，自动识别表头。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>PPT / PDF</h3>
+        <p>第 N 张幻灯片（含标题）、PDF 第 N 页，扫描页走 OCR。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 隐私 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <h2 class="serif">边界画在这里</h2>
+    </div>
+    <p class="sec-sub">索引、检索、OCR 全在本机。即使接了云端模型，离开本机的也只有「你的问题 + 命中的那几段文字」。</p>
+
+    <div class="rail">
+      <div class="rail-col left">
+        <div class="rail-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+          留在本机
+        </div>
+        <ul class="rail-list">
+          <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>原始文档全文</li>
+          <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>解析与内容块切分</li>
+          <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>SQLite + FTS5 索引库</li>
+          <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>本地 OCR（RapidOCR / ONNX，CPU 离线）</li>
+          <li class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>检索、问答编排、引用编号、溯源</li>
+        </ul>
+      </div>
+      <div class="rail-col right">
+        <div class="rail-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          可能离开本机（仅当你主动接模型）
+        </div>
+        <ul class="rail-list">
+          <li class="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>你的那一句问题</li>
+          <li class="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>检索命中的片段（默认 8 段）</li>
+          <li class="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>模型名、温度等参数</li>
+        </ul>
+        <div class="payload">
+          实测一次请求体 <b>1396 字符</b><br/>
+          不含任何磁盘绝对路径<br/>
+          不含整份文档正文
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:16px;">
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>不接模型也能用</h3>
+        <p>工具降级为「原文摘录模式」，界面明确标注<strong>「未接入模型，以上为资料原文摘录」</strong>，绝不伪装成模型回答。接错 Key 时同样退回摘录模式并附上接口报错原文。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>只监听本机</h3>
+        <p>服务固定绑定 <code style="font-family:var(--mono);font-size:12px;">127.0.0.1</code>，不对外网暴露。API Key 以明文存在 <code style="font-family:var(--mono);font-size:12px;">data/config.json</code>，拷贝目录前记得先删掉它。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 模型接入 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.9 2.9M16.2 16.2l2.9 2.9M2 12h4M18 12h4M4.9 19.1l2.9-2.9M16.2 7.8l2.9-2.9"/></svg>
+      <h2 class="serif">接模型：四步，可选</h2>
+    </div>
+    <p class="sec-sub">只要服务兼容 OpenAI 的 <code style="font-family:var(--mono);font-size:12px;">/chat/completions</code>，换个 Base URL 和模型名就能用。</p>
+
+    <div class="grid2" style="align-items:start;">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>服务</th><th>Base URL</th><th>模型</th></tr></thead>
+          <tbody>
+            <tr><td>DeepSeek</td><td><code style="font-family:var(--mono);font-size:11.5px;">api.deepseek.com/v1</code></td><td style="white-space:nowrap;">deepseek-chat</td></tr>
+            <tr><td>月之暗面 Kimi</td><td><code style="font-family:var(--mono);font-size:11.5px;">api.moonshot.cn/v1</code></td><td style="white-space:nowrap;">moonshot-v1-8k</td></tr>
+            <tr><td>智谱 GLM</td><td><code style="font-family:var(--mono);font-size:11.5px;">open.bigmodel.cn/api/paas/v4</code></td><td style="white-space:nowrap;">glm-4-flash</td></tr>
+            <tr><td>通义千问</td><td><code style="font-family:var(--mono);font-size:11.5px;">dashscope.aliyuncs.com/compatible-mode/v1</code></td><td style="white-space:nowrap;">qwen-plus</td></tr>
+            <tr><td>本地 vLLM / LM Studio</td><td><code style="font-family:var(--mono);font-size:11.5px;">127.0.0.1:8000/v1</code></td><td style="white-space:nowrap;">本地模型名</td></tr>
+            <tr><td>Ollama 原生</td><td><code style="font-family:var(--mono);font-size:11.5px;">127.0.0.1:11434</code></td><td style="white-space:nowrap;">qwen2.5:7b</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ol class="timeline">
+        <li>
+          <strong>拿到 API Key</strong>
+          <p>到服务商平台注册、充值或领赠额，创建 <code>sk-</code> 开头的 Key。</p>
+        </li>
+        <li>
+          <strong>打开「设置」</strong>
+          <p>右上角进入，四个字段照抄平台给的地址、Key、模型名。</p>
+        </li>
+        <li>
+          <strong>测试连接</strong>
+          <p>点「测试连接」先发一次最小请求，界面显示 <code>✓ 连接正常</code> 才算通。</p>
+        </li>
+        <li>
+          <strong>保存设置</strong>
+          <p>顶栏徽章从「未接入模型」变成「模型：deepseek-chat」，答案卡底部标注「模型生成 · 已标注引用来源」。</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 运行形态 ══════════ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <h2 class="serif">两种跑法</h2>
+    </div>
+    <p class="sec-sub">同一套后端，源码跑或打包成免安装 exe 都一样。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>源码运行</h3>
+        <p style="margin-bottom:12px;"><code style="font-family:var(--mono);font-size:12px;">pip install -r requirements.txt</code> 后 <code style="font-family:var(--mono);font-size:12px;">python run.py</code> 即可，浏览器自动打开。</p>
+        <div class="payload" style="margin-top:0;">
+          --port 9000&nbsp;&nbsp;换端口<br/>
+          --no-browser&nbsp;不开浏览器<br/>
+          --rebuild&nbsp;&nbsp;&nbsp;清库重建
+        </div>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>免安装 exe</h3>
+        <p style="margin-bottom:12px;"><code style="font-family:var(--mono);font-size:12px;">python tools\build.py</code> 产出目录版 exe，整个目录拷走就能用，首次运行在同级生成 <code style="font-family:var(--mono);font-size:12px;">data/</code>。</p>
+        <div class="payload" style="margin-top:0;">
+          产物&nbsp;dist/EveryFind/EveryFind.exe<br/>
+          体积&nbsp;368 MB（含 OpenCV 约 140 MB，用于 OCR）<br/>
+          想要更瘦：换 opencv-python-headless 可省约 90 MB
+        </div>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:16px;">
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>自动同步</h3>
+        <p>文件夹 60 秒一轮，整盘 30 分钟一轮；新增与修改自动入库，删除自动清理。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>导入即入库</h3>
+        <p>选择文件、拖拽上传都是松手即建索引，不用等定时任务。</p>
+      </div>
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>自带自测</h3>
+        <p><code style="font-family:var(--mono);font-size:12px;">tools/selftest.py</code> 跑完整索引、检索、问答、溯源回归。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div style="font-weight:700;color:var(--ink);margin-bottom:4px;">EveryFind · 本地文档内容检索工具</div>
+      <div>直接问资料，答案有出处。资料不上传。</div>
+    </div>
+    <div class="mono">
+      python run.py &nbsp;→&nbsp; http://127.0.0.1:8765<br/>
+      python tools\build.py &nbsp;→&nbsp; dist/EveryFind/
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

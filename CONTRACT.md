@@ -1,0 +1,22 @@
+# EveryFind 本机接口契约
+
+- HTTP 仅使用 127.0.0.1 / localhost，默认 8765；Host 必须为本机，Origin（如有）须协议、主机和端口完全相同。跨站浏览器请求返回 403。
+- `GET /api/config`：输出 config、llm 状态、ocr_available；llm 只含 has_api_key，不含真实 api_key。
+- `POST /api/config`：输入可选 llm/ocr/index/retrieve/ui 对象；api_key 字段缺省保留，非空更新，clear_api_key=true 显式移除；输出脱敏后的 config 与状态。非法结构/数值返回 400。密钥保存在 local-secrets/api-keys/llm.json，不再写入 data/config.json。
+- `POST /api/llm/test`：探测当前模型；`GET /api/ollama/models?base_url=`：列出模型。
+- `GET /api/status`：counts、progress、roots、supported、sync_error、last_scan。
+- `GET/POST /api/roots`：资料源列表 / 输入 path、kind 添加并入队；`DELETE /api/roots/{root_id}` 移除。
+- `POST /api/rescan` 重扫；`POST /api/reindex` 重建，输出统计。
+- `POST /api/upload` multipart：files、可选 JSON paths、dest；输出 files/paths/results（saved/error/skipped）。路径归一化后限定 uploads 根目录。
+- `GET /api/files` 列表；`POST /api/files/{id}/reindex` 重新索引；`DELETE /api/files/{id}?from_disk=false` 默认只删索引，为 true 时删除磁盘文件。
+- `POST /api/open`、`POST /api/reveal`：输入 file_id，系统打开/定位；整数非法 400，文件不存在 404。
+- `GET /api/search?q=&file_id=&limit=20&dir=`：输出 query/hits；limit 1..200，否则 422。
+- `POST /api/ask`：question、可选 top_k/file_id/prev_questions/dir；输出 answer、mode、citations/cited/files、history_id；无模型回退本地摘录，不承诺模型联网可用。
+- `GET /api/history?limit=100&offset=0`：items/total；limit 1..1000，offset>=0；`DELETE /api/history/{id}` 删除，`DELETE /api/history` 清空；`GET /api/history/export` 导出 Markdown。
+- `GET /api/folders`：folders/count；`POST /api/resolve`：question、可选 file_id，返回 citations（不调用模型）。
+- `GET /api/report`：summary/by_ext/problems/health/roots；新增部分页 OCR 失败的警告。
+- `GET /api/source/{chunk_id}?question=`：原文定位、高亮；不存在 404。
+- `POST /api/export`：question/answer/citations/mode/format，format=docx 输出 Word，其他值输出 Markdown；带 Content-Disposition 下载文件名。
+- `GET /api/fs/list?path=`：本机目录/文件列表。
+- 原解析业务数据格式保持兼容；PDF 长页增加多个保留相同 page 定位的分块；Excel 未计算公式保留文本，不计算缓存缺失的公式。
+- 无其他本仓库上游/下游服务；可选外部模型由用户自行配置。

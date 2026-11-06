@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EveryFind · 本地文档内容检索</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- ══════════════ 侧边栏 ══════════════ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EF</div>
+      <div class="brand-name">EveryFind</div>
+      <div class="brand-sub">本地文档检索</div>
+    </div>
+
+    <div class="side-section">
+      <div class="side-title">添加资料</div>
+      <button class="add-btn primary" id="btn-add-folder">
+        <span class="ai">1</span>
+        <span class="at">添加文件夹</span>
+        <span class="ad">常用资料放这里，新文件和修改会自动更新</span>
+      </button>
+      <button class="add-btn" id="btn-add-files">
+        <span class="ai">2</span>
+        <span class="at">选择文件</span>
+        <span class="ad">只用几份资料？直接选择并导入</span>
+      </button>
+      <label class="add-btn" id="btn-upload" for="drop-input">
+        <span class="ai">3</span>
+        <span class="at">拖拽上传</span>
+        <span class="ad">把文件/文件夹拖进窗口，复制一份进资料库</span>
+        <input type="file" id="drop-input" multiple class="drop-input" />
+      </label>
+      <button class="add-btn" id="btn-add-disk">
+        <span class="ai">4</span>
+        <span class="at">扫描磁盘</span>
+        <span class="ad">不确定文件在哪？选择磁盘批量查找</span>
+      </button>
+    </div>
+
+    <div class="side-section grow">
+      <div class="side-title flex-between">
+        <span>资料库</span>
+        <span class="side-tools">
+          <button class="mini" id="btn-rescan" title="重新扫描已添加的文件夹">刷新</button>
+          <button class="mini" id="btn-reindex" title="全部重新索引">重建</button>
+          <button class="mini" id="btn-report" title="查看索引体检报告">体检</button>
+          <button class="mini" id="btn-history" title="查看问答历史">历史</button>
+        </span>
+      </div>
+      <div class="roots" id="roots"></div>
+      <div class="filelist" id="filelist">
+        <div class="empty-side">还没有资料，先添加一个文件夹吧</div>
+      </div>
+    </div>
+
+    <div class="side-foot">
+      <div class="stat-row"><span id="stat-files">0 个文件</span><span id="stat-chunks">0 个内容块</span></div>
+      <div class="progress hidden" id="progress">
+        <div class="bar"><i id="progress-bar"></i></div>
+        <div class="ptext" id="progress-text">索引中…</div>
+      </div>
+      <div class="progress hidden" id="up-progress">
+        <div class="bar"><i id="up-bar"></i></div>
+        <div class="ptext" id="up-text">正在导入…</div>
+      </div>
+      <div class="up-retry hidden" id="up-retry"></div>
+      <div class="local-badge"><span class="dot"></span>本地运行 · 资料不上传</div>
+    </div>
+  </aside>
+
+  <!-- ══════════════ 主区 ══════════════ -->
+  <main class="main">
+    <header class="topbar">
+      <div class="tabs">
+        <button class="tab active" data-view="chat">问答</button>
+        <button class="tab" data-view="search">全文搜索</button>
+      </div>
+      <div class="top-actions">
+        <span class="llm-badge" id="llm-badge">未接入模型</span>
+        <button class="ghost" id="btn-settings">设置</button>
+      </div>
+    </header>
+
+    <!-- 问答 -->
+    <section class="view" id="view-chat">
+      <div class="chat" id="chat">
+        <div class="welcome" id="welcome">
+          <h1>直接问资料，答案有出处。</h1>
+          <p>Word 里的分工，问一句就清楚。所有回答都能点回原文核对。</p>
+          <div class="examples">
+            <button class="example" data-q="验收报告、操作手册、问题清单分别由谁负责？">验收报告、操作手册、问题清单分别由谁负责？</button>
+            <button class="example" data-q="差旅费预算是多少？实际支出又是多少？">差旅费预算是多少？实际支出又是多少？</button>
+            <button class="example" data-q="项目第三阶段是什么计划？">项目第三阶段是什么计划？</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="composer">
+        <div class="composer-top hidden" id="scope-bar">
+          <span class="scope-label">检索范围</span>
+          <span class="scope-chip" id="scope-chip">
+            <span id="scope-name">全部资料</span>
+            <button class="scope-clear" id="scope-clear" title="取消限定">✕</button>
+          </span>
+          <button class="scope-pick" id="scope-pick">限定到某个文件</button>
+        </div>
+        <div class="composer-box">
+          <textarea id="ask-input" rows="1" placeholder="像聊天一样提问，例如：云舟项目交付要求.docx 中，验收报告由谁负责？"></textarea>
+          <button class="send" id="btn-send" title="发送">↑</button>
+        </div>
+        <div class="composer-tip" id="composer-tip">Enter 发送 · Shift+Enter 换行</div>
+      </div>
+    </section>
+
+    <!-- 全文搜索 -->
+    <section class="view hidden" id="view-search">
+      <div class="search-wrap">
+        <!-- 搜索视图里也要能看到范围：切到这页如果范围条跟着聊天区一起被隐藏，
+             用户既不知道结果被限定了，也没法取消限定 -->
+        <div class="search-scope hidden" id="scope-bar-search">
+          <span class="scope-label">检索范围</span>
+          <span class="scope-chip">
+            <span id="scope-name-search">全部资料</span>
+            <button class="scope-clear" id="scope-clear-search" title="取消限定">✕</button>
+          </span>
+          <span class="scope-hint">搜索结果已限定在这个范围内</span>
+        </div>
+        <div class="search-box">
+          <input id="search-input" type="text" placeholder="输入关键词，搜索所有资料的内容…" />
+          <button class="send" id="btn-search">搜索</button>
+        </div>
+        <div class="search-meta" id="search-meta"></div>
+        <div class="results" id="results"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ══════════════ 来源面板 ══════════════ -->
+<div class="overlay hidden" id="overlay-source">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-file" id="src-file">文件名</div>
+        <div class="sheet-loc" id="src-loc">位置</div>
+      </div>
+      <div class="sheet-actions">
+        <button class="ghost" id="src-reveal">在文件夹中显示</button>
+        <button class="primary-btn" id="src-open">打开文件</button>
+        <button class="close" id="src-close">关闭</button>
+      </div>
+    </div>
+    <div class="sheet-body" id="src-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════ 文件选择器 ══════════════ -->
+<div class="overlay hidden" id="overlay-picker">
+  <div class="sheet picker">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-file" id="pk-title">选择文件夹</div>
+        <div class="sheet-loc" id="pk-path"></div>
+      </div>
+      <div class="sheet-actions">
+        <button class="primary-btn hidden" id="pk-confirm">选择此文件夹</button>
+        <button class="close" id="pk-close">关闭</button>
+      </div>
+    </div>
+    <div class="picker-body" id="pk-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════ 设置 ══════════════ -->
+<div class="overlay hidden" id="overlay-settings">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div><div class="sheet-file">设置</div><div class="sheet-loc">模型、识别与检索参数</div></div>
+      <div class="sheet-actions"><button class="close" id="set-close">关闭</button></div>
+    </div>
+    <div class="sheet-body" id="set-body">
+      <div class="field">
+        <label>接入模型</label>
+        <select id="cfg-provider">
+          <option value="none">不接入（仅原文摘录）</option>
+          <option value="openai">OpenAI 兼容接口（含本地 vLLM / LM Studio / Ollama 的 /v1）</option>
+          <option value="ollama">Ollama 原生接口</option>
+        </select>
+      </div>
+      <div class="field"><label>接口地址 Base URL</label><input id="cfg-base" type="text" placeholder="https://api.deepseek.com/v1 或 http://127.0.0.1:11434/v1" /></div>
+      <div class="field"><label>API Key</label><input id="cfg-key" type="password" placeholder="留空表示不需要鉴权" /></div>
+      <div class="field checkbox"><label><input id="cfg-clear-key" type="checkbox"> 移除已保存的 API Key</label></div>
+      <div class="field"><label>模型名称</label><input id="cfg-model" type="text" placeholder="deepseek-chat / qwen2.5:7b" /></div>
+      <div class="field-row">
+        <div class="field"><label>温度</label><input id="cfg-temp" type="number" step="0.1" min="0" max="2" /></div>
+        <div class="field"><label>引用片段数</label><input id="cfg-topk" type="number" min="1" max="20" /></div>
+      </div>
+      <div class="field checkbox">
+        <label><input type="checkbox" id="cfg-ocr" /> 启用图片 / 扫描件 OCR 识别（本地运行）</label>
+        <div class="hint" id="ocr-hint"></div>
+      </div>
+      <div class="field">
+        <label>资料库自动同步间隔（秒）</label>
+        <input id="cfg-autorescan" type="number" min="0" max="3600" step="10" />
+        <div class="hint" id="autorescan-hint"></div>
+      </div>
+      <div class="set-actions">
+        <button class="ghost" id="cfg-test">测试连接</button>
+        <button class="primary-btn" id="cfg-save">保存设置</button>
+      </div>
+      <div class="set-msg" id="set-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 索引体检报告 ══════════════ -->
+<div class="overlay hidden" id="overlay-report">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-file">索引体检报告</div>
+        <div class="sheet-loc" id="rp-sub"></div>
+      </div>
+      <div class="sheet-actions"><button class="close" id="rp-close">关闭</button></div>
+    </div>
+    <div class="sheet-body" id="rp-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════ 问答历史 ══════════════ -->
+<div class="overlay hidden" id="overlay-history">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-file">问答历史</div>
+        <div class="sheet-loc" id="hi-sub">自动保存，重启也不会丢</div>
+      </div>
+      <div class="sheet-actions">
+        <button class="ghost" id="hi-export">导出 Markdown</button>
+        <button class="ghost" id="hi-clear">清空</button>
+        <button class="close" id="hi-close">关闭</button>
+      </div>
+    </div>
+    <div class="sheet-body" id="hi-body"></div>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<!-- 拖拽导入遮罩 -->
+<div class="dropzone" id="dropzone">
+  <div class="dz-card">
+    <div class="dz-icon">
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 15V3" /><path d="m7 8 5-5 5 5" /><path d="M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4" />
+      </svg>
+    </div>
+    <div class="dz-title">松手即可导入</div>
+    <div class="dz-sub">Word / Excel / PPT / PDF / 图片 / 文本，可直接拖整个文件夹</div>
+    <div class="dz-note">导入的文件会复制一份到本地资料库，原始文件不受影响</div>
+  </div>
+</div>
+
+<!-- 拖拽上传的文件选择框（包在「拖拽上传」卡片里，整张卡片都是点击区） -->
+<script src="/static/app.js"></script>
+</body>
+</html>
